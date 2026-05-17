@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Excel Mastery Checklist — Data Analyst Roadmap</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #222636;
+    --border: #2a2e42;
+    --text: #e2e8f0;
+    --muted: #8892a4;
+    --accent: #4f8ef7;
+    --green: #22c55e;
+    --amber: #f59e0b;
+    --red: #ef4444;
+    --purple: #a855f7;
+    --easy: #22c55e;
+    --medium: #f59e0b;
+    --hard: #ef4444;
+    --critical: #ef4444;
+    --high: #f97316;
+    --medium-pri: #eab308;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── LAYOUT ── */
+  .layout { display: flex; min-height: 100vh; }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 1.5rem 1rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  .sidebar-logo {
+    display: flex; align-items: center; gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .sidebar-logo .xl-box {
+    width: 32px; height: 32px; background: var(--accent);
+    border-radius: 6px; display: flex; align-items: center;
+    justify-content: center; font-weight: 800; font-size: 13px; color: #fff;
+  }
+  .sidebar-logo span { font-weight: 700; font-size: 0.95rem; }
+  .sidebar-subtitle { font-size: 0.7rem; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.4; }
+  .sidebar nav a {
+    display: block; padding: 0.45rem 0.6rem; border-radius: 6px;
+    color: var(--muted); text-decoration: none; font-size: 0.8rem;
+    transition: all 0.15s; margin-bottom: 2px;
+  }
+  .sidebar nav a:hover { background: var(--surface2); color: var(--text); }
+  .sidebar nav a.active { background: var(--accent)22; color: var(--accent); }
+
+  /* ── MAIN ── */
+  .main { flex: 1; padding: 2rem; max-width: 900px; }
+
+  /* ── HEADER ── */
+  .page-header { margin-bottom: 2rem; }
+  .page-header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.25rem; }
+  .page-header p { color: var(--muted); font-size: 0.9rem; }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .stat { text-align: center; }
+  .stat .val { font-size: 1.4rem; font-weight: 700; }
+  .stat .lbl { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .stat.done .val { color: var(--green); }
+  .stat.easy .val { color: var(--easy); }
+  .stat.medium .val { color: var(--medium); }
+  .stat.hard .val { color: var(--hard); }
+  .progress-wrap { flex: 1; display: flex; align-items: center; gap: 0.75rem; }
+  .progress-bar { flex: 1; height: 8px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.4s ease; }
+  .progress-pct { font-size: 0.85rem; font-weight: 600; color: var(--accent); white-space: nowrap; }
+
+  /* ── TABS ── */
+  .tabs { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .tab {
+    padding: 0.4rem 0.9rem; border-radius: 99px; font-size: 0.78rem;
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--muted); cursor: pointer; transition: all 0.15s;
+  }
+  .tab:hover { border-color: var(--accent); color: var(--text); }
+  .tab.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+
+  /* ── SECTION HEADING ── */
+  .section-title {
+    font-size: 1.15rem; font-weight: 700; margin: 2rem 0 1rem;
+    padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
+  }
+
+  /* ── TOPIC CARD ── */
+  .topic-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; margin-bottom: 0.6rem; overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .topic-card:hover { border-color: #3a3e55; }
+  .topic-card.checked { border-color: var(--green)55; }
+  .topic-header {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.85rem 1rem; cursor: pointer;
+  }
+  .topic-cb {
+    width: 20px; height: 20px; border-radius: 5px;
+    border: 2px solid var(--border); background: transparent;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; cursor: pointer; transition: all 0.15s;
+  }
+  .topic-card.checked .topic-cb { background: var(--green); border-color: var(--green); }
+  .topic-cb svg { display: none; }
+  .topic-card.checked .topic-cb svg { display: block; }
+  .topic-num { font-size: 0.7rem; color: var(--muted); font-weight: 600; min-width: 20px; }
+  .topic-name { flex: 1; font-size: 0.88rem; font-weight: 600; }
+  .topic-card.checked .topic-name { color: var(--muted); text-decoration: line-through; }
+  .badges { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+  .badge {
+    font-size: 0.65rem; padding: 2px 7px; border-radius: 99px;
+    font-weight: 600; letter-spacing: 0.03em;
+  }
+  .badge.easy { background: var(--easy)22; color: var(--easy); }
+  .badge.medium { background: var(--medium)22; color: var(--medium); }
+  .badge.hard { background: var(--hard)22; color: var(--hard); }
+  .badge.critical { background: var(--critical)22; color: var(--critical); }
+  .badge.high { background: var(--high)22; color: var(--high); }
+  .badge.order { background: var(--border); color: var(--muted); }
+  .badge.time { background: var(--accent)11; color: var(--accent); }
+  .chevron { color: var(--muted); transition: transform 0.2s; }
+  .topic-card.open .chevron { transform: rotate(180deg); }
+
+  /* ── EXPAND BODY ── */
+  .topic-body { display: none; padding: 0 1rem 1rem; border-top: 1px solid var(--border); }
+  .topic-card.open .topic-body { display: block; }
+  .topic-body h4 { font-size: 0.8rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.07em; margin: 1rem 0 0.4rem; }
+  .topic-body ul { padding-left: 1.2rem; }
+  .topic-body li { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.25rem; }
+  .topic-body li strong { color: var(--text); }
+  .code-list { list-style: none !important; padding-left: 0 !important; }
+  .code-list li { font-family: 'Consolas', monospace; font-size: 0.78rem; color: #7dd3fc; margin-bottom: 0.2rem; }
+  .q-list { list-style: disc; padding-left: 1.2rem; }
+  .q-list li { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.3rem; font-style: italic; }
+  .practice-list { list-style: none; padding-left: 0; }
+  .practice-list li { font-size: 0.82rem; color: var(--muted); padding: 0.25rem 0 0.25rem 1.2rem; position: relative; }
+  .practice-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+  .warn-box {
+    background: var(--hard)11; border-left: 3px solid var(--hard);
+    padding: 0.6rem 0.75rem; border-radius: 0 6px 6px 0; margin-top: 0.75rem;
+  }
+  .warn-box p { font-size: 0.8rem; color: var(--muted); margin: 0.15rem 0; }
+  .tip-box {
+    background: var(--green)11; border-left: 3px solid var(--green);
+    padding: 0.6rem 0.75rem; border-radius: 0 6px 6px 0; margin-top: 0.75rem;
+  }
+  .tip-box p { font-size: 0.8rem; color: var(--muted); margin: 0.15rem 0; }
+
+  /* ── MUST KNOW ── */
+  .must-know-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+  .mk-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1rem;
+  }
+  .mk-card h3 { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
+  .mk-card ul { padding-left: 1.1rem; }
+  .mk-card li { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.2rem; }
+
+  /* ── FORMULA BIBLE ── */
+  .formula-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+  .formula-cat {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1rem;
+  }
+  .formula-cat h3 { font-size: 0.82rem; font-weight: 700; color: var(--accent); margin-bottom: 0.6rem; }
+  .formula-cat ul { list-style: none; padding: 0; }
+  .formula-cat li { font-family: 'Consolas', monospace; font-size: 0.75rem; color: #7dd3fc; margin-bottom: 0.2rem; }
+
+  /* ── SHORTCUTS ── */
+  .shortcut-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+  .shortcut-group { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; }
+  .shortcut-group h3 { font-size: 0.8rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--accent); }
+  .shortcut-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem; }
+  .shortcut-lbl { font-size: 0.75rem; color: var(--muted); }
+  .shortcut-key {
+    font-family: 'Consolas', monospace; font-size: 0.7rem;
+    background: var(--surface2); border: 1px solid var(--border);
+    padding: 2px 6px; border-radius: 4px; color: var(--text); white-space: nowrap;
+  }
+
+  /* ── INTERVIEW TABLE ── */
+  .interview-table { width: 100%; border-collapse: collapse; }
+  .interview-table th {
+    background: var(--surface2); padding: 0.6rem 1rem; text-align: left;
+    font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border);
+  }
+  .interview-table td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--border)88; font-size: 0.82rem; vertical-align: top; }
+  .interview-table tr:last-child td { border-bottom: none; }
+  .interview-table tr:hover td { background: var(--surface2); }
+  .q-num { color: var(--accent); font-weight: 700; font-size: 0.75rem; }
+
+  /* ── SCENARIOS ── */
+  .scenario-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.25rem; margin-bottom: 1rem;
+  }
+  .scenario-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.75rem; }
+  .scenario-inner { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+  .scenario-col h4 { font-size: 0.75rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+  .scenario-col ul { padding-left: 1.1rem; }
+  .scenario-col li { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.2rem; }
+
+  /* ── BEST PRACTICES ── */
+  .bp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+  .bp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; }
+  .bp-card h3 { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.6rem; }
+  .bp-card ul { padding-left: 1.1rem; }
+  .bp-card li { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.2rem; }
+
+  /* ── 30-60-90 PLAN ── */
+  .plan-phases { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .phase-pill {
+    padding: 0.4rem 1rem; border-radius: 99px; font-size: 0.78rem; font-weight: 600;
+    cursor: pointer; border: 1px solid var(--border);
+  }
+  .phase-pill.p1 { background: var(--easy)22; color: var(--easy); border-color: var(--easy)44; }
+  .phase-pill.p2 { background: var(--medium)22; color: var(--medium); border-color: var(--medium)44; }
+  .phase-pill.p3 { background: var(--accent)22; color: var(--accent); border-color: var(--accent)44; }
+  .week-block {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1rem; margin-bottom: 0.75rem;
+  }
+  .week-block h3 { font-size: 0.88rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .week-block p { font-size: 0.8rem; color: var(--muted); }
+  .week-block .focus { font-size: 0.78rem; color: var(--accent); margin-bottom: 0.3rem; }
+
+  /* ── PROJECT CARDS ── */
+  .project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+  .project-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.1rem;
+  }
+  .project-card h3 { font-size: 0.88rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .project-card p { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.5rem; }
+  .project-meta { display: flex; gap: 0.4rem; }
+
+  /* ── DAILY CHECKLIST ── */
+  .daily-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 0.85rem 1rem; margin-bottom: 0.5rem;
+    display: flex; gap: 0.75rem; align-items: flex-start;
+    cursor: pointer; transition: border-color 0.15s;
+  }
+  .daily-item:hover { border-color: #3a3e55; }
+  .daily-item.checked { border-color: var(--green)55; background: var(--green)08; }
+  .daily-item .cb {
+    width: 18px; height: 18px; border-radius: 4px;
+    border: 2px solid var(--border); flex-shrink: 0; margin-top: 1px;
+    display: flex; align-items: center; justify-content: center; transition: all 0.15s;
+  }
+  .daily-item.checked .cb { background: var(--green); border-color: var(--green); }
+  .daily-item .title { font-size: 0.84rem; font-weight: 600; }
+  .daily-item.checked .title { text-decoration: line-through; color: var(--muted); }
+  .daily-item .desc { font-size: 0.76rem; color: var(--muted); margin-top: 0.1rem; }
+
+  /* ── TABS VISIBILITY ── */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── PRINT ── */
+  .print-btn {
+    position: fixed; bottom: 1.5rem; right: 1.5rem;
+    background: var(--accent); color: #fff; border: none;
+    padding: 0.65rem 1.2rem; border-radius: 8px; font-size: 0.82rem;
+    font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px #4f8ef755;
+    z-index: 100;
+  }
+  .print-btn:hover { background: #3a7de0; }
+
+  @media print {
+    .sidebar, .tabs, .print-btn { display: none; }
+    .main { padding: 0; }
+    .topic-body { display: block !important; }
+    body { background: #fff; color: #000; }
+  }
+  @media (max-width: 700px) {
+    .sidebar { display: none; }
+    .main { padding: 1rem; }
+    .stats-bar { gap: 0.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="xl-box">XL</div>
+      <span>Excel Mastery</span>
+    </div>
+    <div class="sidebar-subtitle">Complete Data Analyst Roadmap</div>
+    <nav>
+      <a href="#" class="active" onclick="switchTab('topics',this)">📋 Topics</a>
+      <a href="#" onclick="switchTab('must',this)">⭐ Must Know</a>
+      <a href="#" onclick="switchTab('formulas',this)">🔢 Formula Bible</a>
+      <a href="#" onclick="switchTab('industry',this)">🏭 Industry Use</a>
+      <a href="#" onclick="switchTab('interview',this)">🎯 Interview Prep</a>
+      <a href="#" onclick="switchTab('plan',this)">📅 30-60-90 Days</a>
+      <a href="#" onclick="switchTab('projects',this)">🛠 Projects</a>
+      <a href="#" onclick="switchTab('shortcuts',this)">⚡ Shortcuts</a>
+      <a href="#" onclick="switchTab('scenarios',this)">💼 Scenarios</a>
+      <a href="#" onclick="switchTab('best',this)">✅ Best Practices</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="page-header">
+      <h1>Excel Mastery Checklist</h1>
+      <p>Complete Data Analyst Roadmap · Expand each topic · Check off as you master them</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-bar">
+      <div class="stat done"><div class="val" id="doneCount">0</div><div class="lbl">Done</div></div>
+      <div class="stat"><div class="val">32</div><div class="lbl">Total</div></div>
+      <div class="stat easy"><div class="val">10</div><div class="lbl">Easy</div></div>
+      <div class="stat medium"><div class="val">13</div><div class="lbl">Medium</div></div>
+      <div class="stat hard"><div class="val">9</div><div class="lbl">Hard</div></div>
+      <div class="stat"><div class="val">~130h</div><div class="lbl">Total Time</div></div>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        <div class="progress-pct" id="progressPct">0%</div>
+      </div>
+    </div>
+
+    <!-- TOPICS TAB -->
+    <div class="tab-panel active" id="tab-topics">
+      <div class="section-title">Priority-Based Excel Topic Checklist</div>
+
+      <!-- Topics data will be rendered by JS -->
+      <div id="topicList"></div>
+    </div>
+
+    <!-- MUST KNOW TAB -->
+    <div class="tab-panel" id="tab-must">
+      <div class="section-title">⭐ Must Know for Every Data Analyst</div>
+      <p style="color:var(--muted);font-size:0.83rem;margin-bottom:1.5rem;">Non-negotiable Excel skills. You will use all of these in the first week of any data analyst role.</p>
+      <div class="must-know-grid">
+        <div class="mk-card">
+          <h3>📊 PivotTable (Day 1)</h3>
+          <ul>
+            <li>Create from any tabular data in &lt;30 seconds</li>
+            <li>Group dates by month, quarter, year</li>
+            <li>Show Values As: % of Total, Running Total, Rank</li>
+            <li>Add Slicers + Timelines for interactivity</li>
+            <li>Connect multiple PivotTables to one slicer</li>
+            <li>Calculated field for derived metrics</li>
+          </ul>
+        </div>
+        <div class="mk-card">
+          <h3>🔍 Lookup Formulas (Every Project)</h3>
+          <ul>
+            <li>XLOOKUP for all new work</li>
+            <li>VLOOKUP for legacy compatibility</li>
+            <li>INDEX+MATCH for 2-way and multi-criteria</li>
+            <li>IFERROR/IFNA to handle not-found gracefully</li>
+            <li>Nested XLOOKUP for hierarchical lookup</li>
+          </ul>
+        </div>
+        <div class="mk-card">
+          <h3>📐 Aggregation (Every Report)</h3>
+          <ul>
+            <li>SUMIFS with multiple criteria including dates</li>
+            <li>COUNTIFS for frequency analysis</li>
+            <li>AVERAGEIFS for conditional averages</li>
+            <li>MAXIFS/MINIFS for range extremes</li>
+            <li>SUMPRODUCT for weighted calculations</li>
+          </ul>
+        </div>
+        <div class="mk-card">
+          <h3>🧹 Data Cleaning (Before Any Analysis)</h3>
+          <ul>
+            <li>TRIM + CLEAN for text</li>
+            <li>Remove Duplicates (with subset)</li>
+            <li>Text to Columns for splitting</li>
+            <li>Flash Fill (Ctrl+E) for pattern recognition</li>
+            <li>Find &amp; Replace with wildcards</li>
+            <li>Go To Special → Blanks</li>
+          </ul>
+        </div>
+        <div class="mk-card">
+          <h3>⚡ Dynamic Arrays (Modern Excel)</h3>
+          <ul>
+            <li>FILTER for dynamic lists</li>
+            <li>UNIQUE for distinct value extraction</li>
+            <li>SORT / SORTBY for ranked output</li>
+            <li>SEQUENCE for generating number/date series</li>
+            <li>Spill range reference: A1# syntax</li>
+          </ul>
+        </div>
+        <div class="mk-card">
+          <h3>📅 Date Functions (Reporting)</h3>
+          <ul>
+            <li>TODAY(), EOMONTH() for dynamic dates</li>
+            <li>DATEDIF for tenure/age calculation</li>
+            <li>NETWORKDAYS for working day counts</li>
+            <li>TEXT() for date formatting in labels</li>
+            <li>YEAR/MONTH for period grouping</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-top:2rem;">Core Skills Daily Checklist</div>
+      <div id="dailyList"></div>
+    </div>
+
+    <!-- FORMULA BIBLE TAB -->
+    <div class="tab-panel" id="tab-formulas">
+      <div class="section-title">🔢 Excel Formula Bible — Complete Reference</div>
+      <p style="color:var(--muted);font-size:0.83rem;margin-bottom:1.5rem;">The most important formulas organized by category. Master these and you'll handle 95% of real-world analysis tasks.</p>
+      <div class="formula-grid">
+        <div class="formula-cat">
+          <h3>🔍 Lookup &amp; Reference</h3>
+          <ul>
+            <li>=XLOOKUP(val, look_rng, ret_rng, "NF", 0)</li>
+            <li>=XLOOKUP(val, rng, rng2:rng3) — multiple cols</li>
+            <li>=INDEX(rng, MATCH(val, look, 0))</li>
+            <li>=MATCH(1,(A1=r1)*(B1=r2),0) — multi-criteria</li>
+            <li>=VLOOKUP(val, range, col, 0) — legacy</li>
+            <li>=CHOOSE(n, opt1, opt2, opt3)</li>
+            <li>=OFFSET(ref, r, c, h, w)</li>
+            <li>=INDIRECT(text_ref)</li>
+          </ul>
+        </div>
+        <div class="formula-cat">
+          <h3>📊 Aggregation</h3>
+          <ul>
+            <li>=SUMIFS(sum, r1, c1, r2, c2)</li>
+            <li>=COUNTIFS(r1, c1, r2, c2)</li>
+            <li>=AVERAGEIFS(avg, r1, c1)</li>
+            <li>=MAXIFS(max_rng, r1, c1)</li>
+            <li>=MINIFS(min_rng, r1, c1)</li>
+            <li>=SUMPRODUCT(arr1, arr2)</li>
+            <li>=SUBTOTAL(9, range) — respects filter</li>
+            <li>=AGGREGATE(func, 5, range) — ignores errors</li>
+          </ul>
+        </div>
+        <div class="formula-cat">
+          <h3>⚡ Dynamic Arrays</h3>
+          <ul>
+            <li>=FILTER(arr, include, "empty")</li>
+            <li>=SORT(arr, col_index, 1)</li>
+            <li>=SORTBY(arr, by_col, -1)</li>
+            <li>=UNIQUE(arr, by_col, once)</li>
+            <li>=SEQUENCE(r, c, start, step)</li>
+            <li>=VSTACK(arr1, arr2)</li>
+            <li>=LET(x, val, x*2)</li>
+            <li>=LAMBDA(x, x^2)</li>
+          </ul>
+        </div>
+        <div class="formula-cat">
+          <h3>📝 Text Functions</h3>
+          <ul>
+            <li>=TRIM(text)</li>
+            <li>=CLEAN(text)</li>
+            <li>=PROPER/UPPER/LOWER(text)</li>
+            <li>=LEFT/RIGHT/MID(text, n)</li>
+            <li>=FIND(find, within, start)</li>
+            <li>=SEARCH(find, within, start)</li>
+            <li>=SUBSTITUTE(text, old, new)</li>
+            <li>=TEXTJOIN(", ", TRUE, range)</li>
+            <li>=TEXTSPLIT(text, ",", ";")</li>
+          </ul>
+        </div>
+        <div class="formula-cat">
+          <h3>📅 Date &amp; Time</h3>
+          <ul>
+            <li>=TODAY(), =NOW()</li>
+            <li>=DATE(y,m,d), =DATEVALUE(text)</li>
+            <li>=YEAR/MONTH/DAY/WEEKDAY(date)</li>
+            <li>=DATEDIF(start, end, "YMD")</li>
+            <li>=NETWORKDAYS(start, end, hols)</li>
+            <li>=WORKDAY(start, n, hols)</li>
+            <li>=EOMONTH(date, months)</li>
+            <li>=EDATE(date, months)</li>
+            <li>=TEXT(date, "DD-MMM-YYYY")</li>
+          </ul>
+        </div>
+        <div class="formula-cat">
+          <h3>🧮 Statistical</h3>
+          <ul>
+            <li>=MEDIAN(range)</li>
+            <li>=MODE.SNGL(range)</li>
+            <li>=STDEV.S/STDEV.P(range)</li>
+            <li>=PERCENTILE.INC(range, 0.9)</li>
+            <li>=QUARTILE.INC(range, 1)</li>
+            <li>=RANK.EQ(val, range, 0)</li>
+            <li>=LARGE/SMALL(range, k)</li>
+            <li>=CORREL(arr1, arr2)</li>
+            <li>=FORECAST.ETS(x, ys, xs)</li>
+          </ul>
+        </div>
+        <div class="formula-cat">
+          <h3>⚠ Error Handling</h3>
+          <ul>
+            <li>=IFERROR(formula, fallback)</li>
+            <li>=IFNA(formula, "Not Found")</li>
+            <li>=ISERROR(val), =ISNA(val)</li>
+            <li>=ISNUMBER/ISTEXT/ISBLANK(val)</li>
+            <li>#REF!, #N/A, #VALUE!, #DIV/0!</li>
+            <li>#NAME?, #NULL!, #NUM!, #SPILL!</li>
+          </ul>
+        </div>
+        <div class="formula-cat">
+          <h3>💰 Financial</h3>
+          <ul>
+            <li>=NPV(rate, val1, val2, ...)</li>
+            <li>=IRR(values, guess)</li>
+            <li>=PMT(rate, nper, pv)</li>
+            <li>=XNPV(rate, vals, dates)</li>
+            <li>=XIRR(vals, dates, guess)</li>
+            <li>CAGR = (End/Start)^(1/n)-1</li>
+            <li>=SLN(cost, salvage, life)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- INDUSTRY TAB -->
+    <div class="tab-panel" id="tab-industry">
+      <div class="section-title">🏭 Most Frequently Used Features in Industry</div>
+      <div class="must-know-grid">
+        <div class="mk-card">
+          <h3>📈 Reporting &amp; Analysis (Daily)</h3>
+          <ul>
+            <li>PivotTables for all summary reporting</li>
+            <li>SUMIFS/COUNTIFS for custom aggregations</li>
+            <li>XLOOKUP for all data merging</li>
+            <li>Conditional formatting for RAG status</li>
+            <li>Sparklines for compact trend visualization</li>
+            <li>Dropdown menus for report parameterization</li>
+          </ul>
+        </div>
+        <div class="mk-card">
+          <h3>🔄 Automation &amp; Efficiency</h3>
+          <ul>
+            <li>Power Query for all data import and refresh</li>
+            <li>Macros for monthly report formatting</li>
+            <li>Tables for auto-expanding data ranges</li>
+            <li>Named Ranges for readable formulas</li>
+            <li>Flash Fill for quick data splitting</li>
+            <li>Form Controls for user interaction</li>
+          </ul>
+        </div>
+        <div class="mk-card">
+          <h3>💼 Finance &amp; Accounting Teams</h3>
+          <ul>
+            <li>P&amp;L model with Budget vs Actual</li>
+            <li>Cash flow waterfall using SUMIFS</li>
+            <li>NPV/IRR for investment analysis</li>
+            <li>Scenario Manager for multiple forecasts</li>
+            <li>Aging analysis using DATEDIF + IF buckets</li>
+          </ul>
+        </div>
+        <div class="mk-card">
+          <h3>👥 HR &amp; Operations Teams</h3>
+          <ul>
+            <li>Headcount tracker with monthly reconciliation</li>
+            <li>Attrition calculation: exits/avg HC</li>
+            <li>Payroll audit using SUMIFS by department</li>
+            <li>Leave balance tracking with NETWORKDAYS</li>
+            <li>Interview pipeline tracker with CF</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTERVIEW TAB -->
+    <div class="tab-panel" id="tab-interview">
+      <div class="section-title">🎯 Top 30 Excel Interview Questions</div>
+      <table class="interview-table">
+        <thead><tr><th>#</th><th>Question</th><th>Category</th></tr></thead>
+        <tbody id="interviewTable"></tbody>
+      </table>
+    </div>
+
+    <!-- 30-60-90 TAB -->
+    <div class="tab-panel" id="tab-plan">
+      <div class="section-title">📅 30-60-90 Day Excel Learning Plan</div>
+      <p style="color:var(--muted);font-size:0.83rem;margin-bottom:1.5rem;">Structured daily plan for a working analyst with 1–2 hours/day.</p>
+      <div id="planContent"></div>
+    </div>
+
+    <!-- PROJECTS TAB -->
+    <div class="tab-panel" id="tab-projects">
+      <div class="section-title">🛠 Hands-On Project Checklist</div>
+      <p style="color:var(--muted);font-size:0.83rem;margin-bottom:1.5rem;">Build these to demonstrate real-world Excel mastery.</p>
+      <div class="project-grid" id="projectGrid"></div>
+    </div>
+
+    <!-- SHORTCUTS TAB -->
+    <div class="tab-panel" id="tab-shortcuts">
+      <div class="section-title">⚡ Top Excel Shortcuts</div>
+      <p style="color:var(--muted);font-size:0.83rem;margin-bottom:1.5rem;">Practice until muscle memory. Shortcut fluency signals experience to interviewers.</p>
+      <div class="shortcut-grid" id="shortcutGrid"></div>
+    </div>
+
+    <!-- SCENARIOS TAB -->
+    <div class="tab-panel" id="tab-scenarios">
+      <div class="section-title">💼 Real-World Business Scenarios</div>
+      <div id="scenarioList"></div>
+    </div>
+
+    <!-- BEST PRACTICES TAB -->
+    <div class="tab-panel" id="tab-best">
+      <div class="section-title">✅ Excel Best Practices</div>
+      <div class="bp-grid" id="bpGrid"></div>
+    </div>
+
+  </main>
+</div>
+
+<button class="print-btn" onclick="window.print()">🖨 Print / Save PDF</button>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────
+const topics = [
+  { num:1, name:"Excel Fundamentals — Interface, Navigation & Data Types", diff:"Easy", time:"2–3 hrs", order:1, priority:"Critical", mustKnow:true,
+    why:"Every Excel skill builds on these foundations. Analysts who skip fundamentals develop bad habits that cause errors in complex models years later.",
+    concepts:["Workbook vs Worksheet vs Cell structure","Cell references: Relative (A1), Absolute ($A$1), Mixed ($A1, A$1)","Data types: Number, Text, Date, Boolean, Error","Named Ranges — single cell and multi-cell","Excel Tables (Ctrl+T) — structured references","Name Box and Formula Bar"],
+    formulas:["Ctrl+T — Create Table","F4 — Toggle reference type ($)","Ctrl+End — Jump to last used cell","Ctrl+Home — Go to A1","Name Manager (Formulas tab)","Freeze Panes for large data navigation"],
+    questions:["What is the difference between relative, absolute, and mixed cell references?","What is an Excel Table and what advantages does it have over a plain data range?","How do Named Ranges improve formula readability and reduce errors?"],
+    tasks:["Build a sales template using a Table that auto-expands with new rows","Create 5 Named Ranges for a budget model; reference them in formulas","Reproduce a #REF! error by deleting a referenced row; fix it with absolute references"],
+    mistakes:["Using relative references in formulas that should be fixed","Not using Tables — plain ranges don't auto-expand","Hardcoding values that should be named ranges"],
+    tips:["Always use Ctrl+T to create a Table before building any analysis","Press F4 immediately after clicking a cell reference to cycle through $ options","Name your tables (Table1 is useless — rename to tbl_Sales)"]
+  },
+  { num:2, name:"Essential Lookup & Reference Formulas — XLOOKUP, INDEX-MATCH", diff:"Medium", time:"5–6 hrs", order:2, priority:"Critical", mustKnow:true,
+    why:"Lookup functions are the #1 most-used formula category in business analytics. Every data reconciliation, report merge, and mapping task requires them.",
+    concepts:["VLOOKUP: legacy, still everywhere; leftmost column only","HLOOKUP: horizontal version; rarely used","INDEX+MATCH: flexible, any direction, multiple criteria","XLOOKUP: modern replacement; handles not-found, multiple returns","XMATCH: position-only version of XLOOKUP"],
+    formulas:["=VLOOKUP(lookup, range, col, 0)","=INDEX(return_range, MATCH(lookup, lookup_range, 0))","=XLOOKUP(lookup, lookup_range, return_range, \"Not Found\", 0)","=XLOOKUP(lookup, range, range, , , -1) — last match","=XLOOKUP(A2, range, range2:range3) — return multiple columns","=INDEX(range, MATCH(1,(A1=r1)*(B1=r2), 0)) — multi-criteria"],
+    questions:["What are the limitations of VLOOKUP that XLOOKUP solves?","How do you perform a two-criteria lookup?","What does the match_mode parameter in XLOOKUP do?","When would you use VLOOKUP with TRUE (approximate match)?","How do you return the last matching value rather than the first?"],
+    tasks:["Build a product pricing lookup: XLOOKUP to return price from a table based on product code","Create a multi-criteria lookup: customer + month → revenue using INDEX-MATCH","Reproduce a #N/A error from VLOOKUP with extra spaces; fix it with TRIM","Use XLOOKUP to return multiple columns at once (name, price, category)"],
+    mistakes:["VLOOKUP with wrong column index (changes when columns are inserted)","Forgetting the 4th argument in VLOOKUP (defaults to TRUE = approximate, usually wrong)","Not handling #N/A with IFERROR or XLOOKUP's not_found argument"],
+    tips:[]
+  },
+  { num:3, name:"Logical & Conditional Formulas — IF, IFS, AND, OR, SWITCH", diff:"Easy", time:"3–4 hrs", order:3, priority:"Critical", mustKnow:true,
+    why:"Conditional logic drives data categorization, performance flags, and error handling in nearly every report.",
+    concepts:["IF, IFS, SWITCH for conditional branching","AND, OR, NOT for compound conditions","IFERROR, IFNA for error handling"],
+    formulas:["=IF(condition, value_if_true, value_if_false)","=IFS(c1, v1, c2, v2, TRUE, \"default\")","=SWITCH(expr, val1, res1, val2, res2, default)","=AND(cond1, cond2, ...)","=OR(cond1, cond2, ...)","=IFERROR(formula, \"Error fallback\")","=IFNA(formula, \"N/A fallback\")"],
+    questions:["What is the difference between IF and IFS? When would you use SWITCH instead?","How do you write an IF formula with multiple conditions (AND logic)?","What is the difference between IFERROR and IFNA?","Nested IF vs IFS — which is more readable and why?"],
+    tasks:["Build a 5-tier bonus calculator using IFS","Write a RAG status flag: Green/Amber/Red based on % achievement","Use SWITCH to map product codes to full category names"],
+    mistakes:[],tips:[]
+  },
+  { num:4, name:"Aggregation Formulas — SUMIF, COUNTIF, AVERAGEIF & Array Variants", diff:"Medium", time:"4–5 hrs", order:4, priority:"Critical", mustKnow:true,
+    why:"SUMIFS and COUNTIFS are the SQL GROUP BY of Excel. Mastering these reduces the need for PivotTables in simple summaries.",
+    concepts:["SUMIF/SUMIFS for conditional sums","COUNTIF/COUNTIFS for conditional counts","AVERAGEIFS, MINIFS, MAXIFS","SUMPRODUCT for weighted calculations"],
+    formulas:["=SUMIF(range, criteria, sum_range)","=SUMIFS(sum_range, r1, c1, r2, c2, ...)","=COUNTIF(range, criteria)","=COUNTIFS(r1, c1, r2, c2, ...)","=AVERAGEIFS(...)","=MINIFS(min_range, criteria_range, criteria)","=MAXIFS(max_range, criteria_range, criteria)","=SUMPRODUCT(array1, array2)"],
+    questions:["What is the difference between SUMIF and SUMIFS?","How do you use SUMIFS with date range criteria?","When would you use SUMPRODUCT instead of SUMIFS?","How do you count unique values with a formula?"],
+    tasks:["Build a regional sales summary using SUMIFS for each region/month","Count customers who purchased >3 times AND spent >₹10,000 using COUNTIFS","Use SUMPRODUCT to calculate weighted average score","Find MIN and MAX salary by department using MINIFS/MAXIFS"],
+    mistakes:[],
+    tips:["SUMIFS criteria can use wildcards: \"*North*\"","Date criteria: use \">=\"&DATE(2024,1,1) not \">=\"&\"01/01/2024\"","SUMPRODUCT doesn't need Ctrl+Shift+Enter"]
+  },
+  { num:5, name:"Text Functions — Cleaning, Extracting & Combining Text", diff:"Easy", time:"3–4 hrs", order:5, priority:"Critical", mustKnow:true,
+    why:"Real-world data always has messy text. These functions are used in every data cleaning task.",
+    concepts:["Text cleaning: TRIM, CLEAN, SUBSTITUTE","Text extraction: LEFT, RIGHT, MID, FIND, SEARCH","Text combining: CONCAT, TEXTJOIN","Type conversion: VALUE, TEXT, TEXTSPLIT"],
+    formulas:["=TRIM(text)","=CLEAN(text)","=UPPER/LOWER/PROPER(text)","=LEN(text)","=LEFT/RIGHT/MID(text, n)","=FIND/SEARCH(find_text, within_text)","=SUBSTITUTE(text, old, new, instance)","=CONCAT/TEXTJOIN(delim, ignore_empty, ...)","=TEXT(value, format_code)","=VALUE(text)","=TEXTSPLIT(text, col_delim, row_delim)"],
+    questions:["How do you extract the domain name from an email address column?","What is the difference between FIND and SEARCH?","How do you combine first name and last name with a space?","How do you convert a text column back to numbers?"],
+    tasks:["Clean a messy customer dataset: trim spaces, fix casing, remove special characters","Extract area code from phone number: \"+91-98765-43210\"","Build a full name from first + middle + last name, handling blank middle names"],
+    mistakes:[],tips:[]
+  },
+  { num:6, name:"Date & Time Functions — Calculations, Formatting & Business Days", diff:"Medium", time:"3–4 hrs", order:6, priority:"High",
+    concepts:["Date arithmetic and DATEDIF","Business day calculations: NETWORKDAYS, WORKDAY","Period functions: EOMONTH, EDATE, WEEKNUM","Formatting with TEXT()"],
+    formulas:["=TODAY(), =NOW()","=DATE(year, month, day)","=YEAR/MONTH/DAY/HOUR/MINUTE(date)","=DATEDIF(start, end, \"Y\"/\"M\"/\"D\")","=NETWORKDAYS(start, end, holidays)","=WORKDAY(start, n_days, holidays)","=EOMONTH(date, months)","=WEEKDAY(date, return_type)","=TEXT(date, \"MMM YYYY\")"],
+    questions:["How do you calculate the number of complete years between two dates?","What is the difference between NETWORKDAYS and WORKDAY?","How do you get the last day of the current month?","How do you convert text dates like \"2024-01-15\" to proper date values?"],
+    tasks:["Build an employee tenure report: years, months, days of service","Create an invoice aging report: Current / 1-30 / 31-60 / 60+ days","Calculate the payment due date (30 business days from invoice date)"],
+    mistakes:[],tips:[]
+  },
+  { num:7, name:"Dynamic Array Formulas — FILTER, SORT, UNIQUE, SEQUENCE", diff:"Medium", time:"4–5 hrs", order:7, priority:"Critical", mustKnow:true,
+    why:"Dynamic arrays (Excel 365/2021) replace dozens of complex array formulas. FILTER replaces Advanced Filter, UNIQUE replaces Remove Duplicates.",
+    concepts:["FILTER for dynamic conditional output","UNIQUE for distinct value lists","SORT/SORTBY for dynamic ranking","SEQUENCE for number/date generation","LET and LAMBDA for readable custom formulas"],
+    formulas:["=FILTER(array, include, [if_empty])","=SORT(array, [sort_index], [sort_order])","=SORTBY(array, by_array1, order1, ...)","=UNIQUE(array, [by_col], [exactly_once])","=SEQUENCE(rows, [cols], [start], [step])","=VSTACK/HSTACK(array1, array2)","=LET(name, value, calculation)","=LAMBDA(param, formula)"],
+    questions:["How is FILTER different from Advanced Filter?","How do you use UNIQUE to get a distinct list of products with totals dynamically?","What is a spill range and what does the # symbol mean (e.g. A1#)?","How do you use FILTER with multiple conditions (AND vs OR)?","What is LET() and how does it improve formula performance?"],
+    tasks:["Build a dynamic report: UNIQUE list of products + SUMIFS for each","Create a Top-5 list using SORT+FILTER","Use SEQUENCE to generate dates for a full month","Use LET to write a readable complex formula with named sub-expressions"],
+    mistakes:["Spill errors (#SPILL!) when another cell is blocking the spill range","Dynamic arrays require Excel 365/2021 — won't work in Excel 2016/2019","Forgetting to reference a spill range with # (e.g. A1#)"],
+    tips:[]
+  },
+  { num:8, name:"Data Cleaning & Preparation — Techniques & Tools", diff:"Medium", time:"4–5 hrs", order:8, priority:"Critical", mustKnow:true,
+    why:"Analysts spend 60–80% of their time cleaning data. These tools make the difference between a 3-hour manual job and a 15-minute repeatable process.",
+    concepts:["Remove Duplicates: Data tab → Remove Duplicates","Text to Columns: split by delimiter or fixed width","Flash Fill: Ctrl+E — pattern recognition","Find & Replace: Ctrl+H with wildcards","Data Validation: restrict input to list/number/date range","Go To Special: F5 → Special → select blanks, errors","Conditional Formatting: highlight duplicates, top/bottom N values"],
+    formulas:["Ctrl+E — Flash Fill","Ctrl+H — Find & Replace","F5 → Special — Go To Special","Alt+E+S+V — Paste Values Only"],
+    questions:["Walk me through how you would clean a 50,000-row customer dataset in Excel.","How do you use Flash Fill? What are its limitations?","How do you use Data Validation to restrict a column to a list?","How do you select all blank cells and fill them with \"N/A\"?","How do you highlight rows where a value in column C exceeds a threshold?"],
+    tasks:["Clean a sample CRM export: remove duplicates, standardize casing, split full names","Use conditional formatting to highlight all rows where revenue < target","Build a data validation dropdown for a data entry form","Use Go To Special → Blanks to fill all empty cells with \"Unknown\""],
+    mistakes:[],tips:[]
+  },
+  { num:9, name:"Pivot Tables — The Most Powerful Analytical Tool in Excel", diff:"Medium", time:"6–8 hrs", order:9, priority:"Critical", mustKnow:true,
+    why:"Pivot Tables are the #1 feature that differentiates Excel analysts from Excel users. Every interview will test your Pivot Table skills — expect live exercises.",
+    concepts:["Rows, Columns, Values, Filters — the 4 areas","Value field settings: Sum, Count, Average, Max, Min","Show Values As: % of Total, % of Row, Running Total, Rank","Grouping: dates by month/quarter/year, numbers into bins","Calculated fields and calculated items","Slicers and Timelines for interactivity","Multiple PivotTables sharing one slicer (Connect)","PivotChart linked to PivotTable"],
+    formulas:["Alt+N+V → Insert PivotTable","Alt+F5 — Refresh PivotTable","Double-click value cell → drill through to source rows"],
+    questions:["Live: Show me revenue by region and month with % of total using a PivotTable.","How do you add a calculated field? Give an example.","What is the difference between a Calculated Field and a Calculated Item?","How do you group dates by quarter in a PivotTable?","How do you connect multiple PivotTables to a single slicer?"],
+    tasks:["Build 5 different PivotTables from one sales dataset in under 10 minutes","Add a calculated field: Profit Margin % = Profit / Revenue","Connect 3 PivotTables to one region slicer and one timeline slicer","Build a \"Show Values As → Running Total\" for cumulative revenue"],
+    mistakes:["Not refreshing the PivotTable after data changes","Having blank column headers in source data — breaks the PivotTable","Not using a Table as source — PivotTable won't pick up new rows","Deleting cached items that appear after removing from the source"],
+    tips:["Alt+N+V → Insert PivotTable shortcut","Double-click on a value cell to drill through to the source rows","Use Report Layout → Tabular Form for flat, database-style output"]
+  },
+  { num:10, name:"Charts & Visualizations — Choosing, Building & Formatting", diff:"Medium", time:"5–6 hrs", order:10, priority:"High",
+    concepts:["Line: trends over time","Bar/Column: comparisons across categories","Stacked Bar: composition + comparison","Pie/Donut: part-of-whole (max 5 slices)","Scatter: correlation between two variables","Waterfall: running total changes (P&L, headcount)","Combo: dual axis (e.g. revenue bars + margin line)","Sparklines: in-cell mini charts"],
+    formulas:["Secondary axis for dual-metric charts","Dynamic chart title using & formula","Target line using a series of constant values"],
+    questions:["How do you choose between a bar chart and a line chart for a given dataset?","How do you create a chart that updates dynamically when data is added?","How do you add a secondary axis? When would you use one?","How do you make a chart title dynamic?"],
+    tasks:["Build a combo chart: revenue (columns) + profit margin % (line) with dual axis","Create a waterfall chart for a headcount movement report","Add sparklines to a 12-month summary table","Build a chart that shows data for a dropdown-selected region only"],
+    mistakes:[],tips:[]
+  },
+  { num:11, name:"Dashboard Creation — KPI, Executive & Interactive Dashboards", diff:"Hard", time:"8–10 hrs", order:11, priority:"Critical", mustKnow:true,
+    why:"Dashboard creation is the most visible deliverable of a data analyst. A well-designed Excel dashboard impresses stakeholders and is the top portfolio item.",
+    concepts:["KPI summary cards (using formulas + borders + icons)","Trend charts (12-month line/bar)","Comparison chart (actual vs target)","Summary table with conditional formatting","Dropdown/slicer for interactivity","Navigation buttons (hyperlinks + shapes)","Dynamic title that updates with selections"],
+    formulas:["Z-pattern layout: most important metrics top-left","Max 3 colors: one primary, one accent, one neutral","No gridlines on dashboard sheet","Include \"Last Updated\" date using TODAY()","Protect the sheet; only unlock input cells"],
+    questions:["Walk me through how you would design an executive sales dashboard in Excel.","How do you make a dashboard interactive without using VBA?","How do you use Data Validation dropdowns to drive dynamic chart data?","How do you prevent users from accidentally editing formulas?"],
+    tasks:["Build a 1-page monthly sales KPI dashboard: 6 KPIs, 3 charts, 1 dropdown filter","Create a dynamic chart that shows data for a selected month from a dropdown","Build an HR dashboard: headcount, attrition, tenure distribution, department view"],
+    mistakes:[],
+    tips:["Hide formula and data sheets; only show the Dashboard sheet","Use camera tool to create live snapshots of ranges on the dashboard","Use Form Controls (not ActiveX) for dropdowns — more stable and no VBA needed"]
+  },
+  { num:12, name:"What-If Analysis — Goal Seek, Scenario Manager & Solver", diff:"Medium", time:"4–5 hrs", order:12, priority:"High",
+    concepts:["Data Table (1-way/2-way): show multiple outcomes at once; break-even tables","Goal Seek: find input needed for a target output; pricing analysis","Scenario Manager: save Base/Best/Worst case scenarios","Solver: optimization with constraints"],
+    formulas:[],
+    questions:["What is Goal Seek and how would you use it to find the required sales volume to break even?","When would you use Solver vs Goal Seek?","How do you create a 2-variable sensitivity table for pricing × volume → revenue?","How do you build a scenario comparison report using Scenario Manager?"],
+    tasks:["Goal Seek: find required average order value to hit annual revenue target","Build a 2-way Data Table: price (rows) × units sold (cols) → revenue","Create 3 budget scenarios (Base/Optimistic/Pessimistic) in Scenario Manager","Use Solver to optimize staff allocation across 5 shifts with constraints"],
+    mistakes:[],tips:[]
+  },
+  { num:13, name:"Statistical & Financial Formulas", diff:"Medium", time:"4–5 hrs", order:13, priority:"High",
+    concepts:["Statistical: MEDIAN, MODE, STDEV, PERCENTILE, CORREL, RANK","Financial: NPV, IRR, PMT, PV, FV, XNPV, XIRR","Growth: CAGR formula"],
+    formulas:["=MEDIAN(), =MODE.SNGL(), =STDEV.P()","=PERCENTILE.INC(array, k)","=CORREL(array1, array2)","=FORECAST.LINEAR(x, known_ys, known_xs)","=NPV(rate, value1, value2, ...)","=IRR(values, guess)","=PMT(rate, nper, pv)","=XNPV/XIRR(rate, values, dates)","CAGR = (End/Start)^(1/Years) - 1"],
+    questions:["How do you calculate CAGR in Excel?","What is the difference between NPV and XNPV?","How do you find the 90th percentile of a salary dataset?","How do you calculate month-over-month growth % for a revenue column?"],
+    tasks:["Build a financial model with NPV/IRR for a 5-year investment","Calculate P10/P50/P90 percentiles for a customer spend dataset","Add a linear forecast trend line using FORECAST.LINEAR"],
+    mistakes:[],tips:[]
+  },
+  { num:14, name:"Advanced Filtering — Advanced Filter, Criteria Ranges & FILTER formula", diff:"Medium", time:"2–3 hrs", order:14, priority:"Medium",
+    concepts:["AutoFilter with custom criteria","Advanced Filter: extract unique records, multi-criteria","FILTER formula for dynamic filtering (spill array)","Filtering by color (manual)"],
+    formulas:["=FILTER(array, include, \"empty\")"],
+    questions:[],
+    tasks:["Use Advanced Filter to extract unique customer list from 10,000 rows","Build a criteria range for: Region=North AND Revenue>50000 OR Region=South","Use FILTER formula to create a live-updating list of overdue invoices"],
+    mistakes:[],tips:[]
+  },
+  { num:15, name:"Power Query — Modern ETL for Excel Analysts", diff:"Hard", time:"8–10 hrs", order:15, priority:"Critical", mustKnow:true,
+    why:"Power Query replaces hours of manual copy-paste + VLOOKUP workflows. Combining 12 monthly CSV files becomes a one-click refresh. It is the most productive Excel skill to learn.",
+    concepts:["Connect to 50+ data sources (SQL, CSV, Excel, Web, SharePoint)","Transform: filter, sort, remove columns, change types","Append: stack tables (same structure)","Merge: join tables (like SQL JOIN)","Unpivot: wide → long (tidy) format","Group By: aggregate like SQL GROUP BY","Custom columns: M language expressions","Parameters for dynamic sources"],
+    formulas:["12 monthly CSVs → combined table: 2 hours manual vs 5 minutes PQ","Refresh button: re-runs all transformations on new data automatically"],
+    questions:["What is Power Query and how does it differ from a standard Excel formula approach?","How do you combine 12 monthly CSV files into one table automatically?","What is the difference between Append and Merge in Power Query?","What is query folding and why does it matter for performance?"],
+    tasks:["Combine 12 monthly sales CSV files from a folder into one table using PQ","Merge customer master + transactions using a Left Join","Unpivot a wide pivot table to long/tidy format","Build a parameterized query for dynamic date filtering"],
+    mistakes:["Not using Power Query when combining files — doing it manually with VLOOKUP","Changing source file names after building the query — breaks the connection","Not keeping source data outside the workbook"],
+    tips:[]
+  },
+  { num:16, name:"Power Pivot & Data Model", diff:"Hard", time:"8–10 hrs", order:16, priority:"High",
+    concepts:["Data Model: connect multiple tables with relationships","1M+ rows without slowdown (compressed columnar storage)","DAX measures: calculated metrics across related tables","Hierarchies: drill from Year → Quarter → Month"],
+    formulas:["=SUM(Sales[Revenue])","=CALCULATE(SUM(Sales[Rev]), Products[Category]=\"Electronics\")","=DIVIDE([Sales], [Target], 0)","=TOTALYTD(SUM(Sales[Revenue]), Calendar[Date])","=RELATED(Products[Category])"],
+    questions:["What is the Excel Data Model and how does it differ from a standard PivotTable?","Why would you use Power Pivot instead of VLOOKUP to combine tables?","What DAX functions are available in Excel Power Pivot? Name 5.","How do skills learned in Power Pivot apply to Power BI?"],
+    tasks:["Load fact + dimension tables into Data Model; create a PivotTable without VLOOKUP","Write a CALCULATE DAX measure to filter by category","Create a hierarchy: Year → Quarter → Month → Week in Calendar table"],
+    mistakes:[],tips:[]
+  },
+  { num:17, name:"VBA & Macros — Automation Without Coding Background", diff:"Hard", time:"8–10 hrs", order:17, priority:"Medium",
+    why:"Macros automate repetitive monthly tasks: formatting, copy-paste, report distribution. Even basic macro recording saves hours per week.",
+    concepts:["Macro recorder: record actions, edit the code","Sub procedures and functions","Variables, data types (Dim x As Long)","If/Then/Else, For/Next, Do/While loops","Range and Cell object manipulation","MsgBox, InputBox for user interaction","Error handling: On Error GoTo"],
+    formulas:["Alt+F11 — Open VBA editor","Alt+F8 — Run macro"],
+    questions:["What is the difference between a Macro and a VBA function?","How do you record a macro and then modify it?","Write a VBA snippet to loop through all sheets and extract a value from A1.","How do you avoid the macro recorder's absolute references?"],
+    tasks:["Record a macro to format a report: header style, borders, autofit columns","Write a loop to highlight all cells > 100,000 in red","Build a \"Generate Report\" button that refreshes data, sorts, and saves as PDF"],
+    mistakes:[],tips:[]
+  },
+  { num:18, name:"OFFSET, INDIRECT & Volatile Functions", diff:"Hard", time:"3–4 hrs", order:18, priority:"",
+    concepts:["OFFSET: dynamic range reference","INDIRECT: reference from text string","Volatile warning: recalculate every keystroke","Modern replacement: use FILTER, XLOOKUP, or Tables instead"],
+    formulas:["=OFFSET(ref, rows, cols, [height], [width])","=INDIRECT(ref_text)","=OFFSET + COUNTA — classic dynamic named range"],
+    questions:["What does OFFSET do and when would you use it for a dynamic chart range?","Why are OFFSET and INDIRECT called volatile functions?","How do you use INDIRECT to reference different sheets based on a dropdown?"],
+    tasks:["Rebuild an OFFSET-based chart range using Excel Tables instead","Build a sheet-switching formula using INDIRECT"],
+    mistakes:[],tips:[]
+  },
+  { num:19, name:"Financial Reporting — P&L, Cash Flow & Budget Models", diff:"Hard", time:"8–10 hrs", order:19, priority:"",
+    concepts:["Multi-sheet model: Inputs → Calculations → Output → Dashboard","P&L structure: Revenue → Gross Profit → EBITDA → Net Profit","Sensitivity analysis using Data Tables","Variance: Actual vs Budget (absolute + %)","Rolling forecast model with actuals locked by month"],
+    formulas:["Color-code inputs (blue) vs formulas (black) vs links (green)","All inputs on one sheet (no hardcoding in formula sheets)","Use named ranges for key assumptions"],
+    questions:[],
+    tasks:["Build a 5-year P&L model with Base/Best/Worst scenarios + NPV/IRR","Create variance analysis with % and absolute differences","Add sensitivity analysis using a 2-way Data Table"],
+    mistakes:[],tips:[]
+  },
+  { num:20, name:"MIS Reporting & Daily/Weekly/Monthly Automation", diff:"Medium", time:"5–6 hrs", order:20, priority:"",
+    concepts:["Data tab (raw, auto-refreshed via PQ)","Summary tab (PivotTable or SUMIFS summaries)","Dashboard tab (charts + KPI cards)","Automated title and date using TEXT(TODAY(),...)","Parameterized by month/region using dropdowns","Print-ready formatting: headers, page breaks, PDF export"],
+    formulas:[],
+    questions:[],
+    tasks:["Build a monthly sales MIS report that refreshes with one click","Automate PDF export using a macro button","Create a daily dashboard with auto-updated \"Last Refreshed\" timestamp"],
+    mistakes:[],tips:[]
+  },
+  { num:21, name:"Data Reconciliation & Validation Techniques", diff:"Medium", time:"3–4 hrs", order:21, priority:"",
+    concepts:["XLOOKUP to match records across two systems","Highlighting mismatches with conditional formatting","SUMIFS cross-check: source total = destination total","Finding records in A but not in B (anti-join with ISNA)","Duplicate check across multiple columns"],
+    formulas:[],
+    questions:["You receive two reports from different systems. How do you reconcile them in Excel?","How do you find records that exist in Sheet1 but not in Sheet2?","How do you build a tolerance check that flags differences > 0.01%?"],
+    tasks:["Match two system exports by order ID and flag mismatches","Build a tolerance-based reconciliation formula","Identify records in one file but not the other"],
+    mistakes:[],tips:[]
+  },
+  { num:22, name:"Performance & Workbook Optimization", diff:"Medium", time:"3–4 hrs", order:22, priority:"",
+    concepts:["Avoid volatile functions: replace OFFSET with Tables, INDIRECT with direct refs","Avoid entire column references: A:A → A1:A100000","Use manual calculation mode for heavy models (F9 to recalculate)","Replace array formulas with SUMPRODUCT or dynamic arrays","Remove unused named ranges and dead formulas","Compress images, save as .xlsx not .xls"],
+    formulas:["F9 — Manual recalculate"],
+    questions:["Your Excel file is 80MB and very slow. How do you diagnose and fix it?","What are volatile functions and why do they affect performance?"],
+    tasks:["Audit a large workbook and apply 5 optimization techniques","Replace OFFSET-based named ranges with Table structured references","Reduce a 50MB file to under 10MB"],
+    mistakes:[],tips:[]
+  },
+  { num:23, name:"Error Auditing & Formula Tracing", diff:"Easy", time:"2 hrs", order:23, priority:"",
+    concepts:["Trace Precedents/Dependents: visualize formula chains","Evaluate Formula: step-by-step debugging (F9 in formula bar)","Watch Window: monitor key cells while editing elsewhere","Common errors: #REF, #N/A, #VALUE, #DIV/0!, #NAME?, #NULL!, #NUM!"],
+    formulas:["Alt+M+V — Evaluate Formula","Alt+M+P — Trace Precedents","Ctrl+` — Show all formulas"],
+    questions:["How do you use Trace Precedents to audit a formula chain?","Walk me through debugging a nested IF that returns the wrong result."],
+    tasks:["Deliberately create each error type and practice diagnosing it","Use Trace Precedents to audit a 5-step formula chain","Use Evaluate Formula to debug a nested IF"],
+    mistakes:[],tips:[]
+  },
+  { num:24, name:"Excel + SQL Integration", diff:"Medium", time:"4–5 hrs", order:24, priority:"",
+    concepts:["Get Data → From Database → SQL Server connection","Write SQL query inside Power Query connection","Scheduled refresh for live data","ODBC connections for legacy databases","Parameters in SQL query for filtered import"],
+    formulas:["SELECT with WHERE, GROUP BY, HAVING, ORDER BY","JOINs: INNER, LEFT, RIGHT","Date functions per dialect","Subqueries and CTEs for pre-aggregation"],
+    questions:[],
+    tasks:["Connect Excel to a SQL database via Power Query","Write a parameterized SQL query that filters by date range","Refresh the connection and verify data updated"],
+    mistakes:[],tips:[]
+  },
+  { num:25, name:"Excel + Power BI Integration", diff:"Medium", time:"3–4 hrs", order:25, priority:"",
+    concepts:["\"Analyze in Excel\" — PivotTable connected to Power BI dataset","Export Power BI data to Excel for further analysis","Excel as a data source for Power BI","Power Pivot skills transfer to Power BI DAX","OneDrive/SharePoint Excel refresh in Power BI"],
+    formulas:["Power Query M language → same in Power BI Desktop","DAX in Power Pivot → same in Power BI","XLOOKUP logic → LOOKUPVALUE in DAX"],
+    questions:[],
+    tasks:["Use Analyze in Excel on a Power BI dataset","Build the same report in both tools and compare","Map 3 Excel Power Pivot measures to equivalent Power BI DAX measures"],
+    mistakes:[],tips:[]
+  },
+  { num:26, name:"Customer & Sales Analytics", diff:"Medium", time:"5–6 hrs", order:26, priority:"",
+    concepts:["RFM Analysis: Recency, Frequency, Monetary segmentation","Customer lifetime value (CLV) using SUMIFS","Cohort analysis in PivotTable (first purchase month)","Funnel analysis: lead → qualified → closed","Churn flag: last purchase > 90 days"],
+    formulas:[],
+    questions:[],
+    tasks:["Build an RFM score for 1000 customers using PERCENTRANK","Create a monthly cohort table: customers acquired by month vs active in each subsequent month","Build a Top-10 customer revenue table with dynamic sorting"],
+    mistakes:[],tips:[]
+  },
+  { num:27, name:"HR Analytics — Workforce Reporting", diff:"Medium", time:"4–5 hrs", order:27, priority:"",
+    concepts:["Headcount opening, additions, exits, closing","Attrition rate: exits / avg headcount","Average tenure using DATEDIF","Age band distribution using IFS or VLOOKUP approx","Salary band analysis using PERCENTILE"],
+    formulas:[],
+    questions:[],
+    tasks:["Monthly headcount reconciliation: opening + additions - exits = closing","Build tenure bands and age distribution histogram","Attrition dashboard with department and tenure slice"],
+    mistakes:[],tips:[]
+  },
+  { num:28, name:"Inventory & Supply Chain Analysis", diff:"Medium", time:"4–5 hrs", order:28, priority:"",
+    concepts:["Inventory days: Stock / (COGS / Days)","Reorder point calculation","ABC classification using PERCENTRANK + IF","Slow-moving/dead stock identification","Supplier performance: on-time delivery %"],
+    formulas:[],
+    questions:[],
+    tasks:["ABC inventory classification: A=top 70% value, B=next 20%, C=last 10%","Flag stock below reorder point with conditional formatting","Calculate inventory turnover by product category"],
+    mistakes:[],tips:[]
+  },
+  { num:29, name:"Forecasting & Trend Analysis", diff:"Medium", time:"4–5 hrs", order:29, priority:"",
+    concepts:["FORECAST.ETS for seasonal time series","FORECAST.LINEAR for linear trends","Moving average using AVERAGE over rolling window","Exponential smoothing","Growth rate projection"],
+    formulas:["=FORECAST.ETS(target_date, values, timeline)","=FORECAST.LINEAR(x, known_ys, known_xs)"],
+    questions:[],
+    tasks:["Build a 3-month rolling average on a monthly sales series","Use FORECAST.ETS to project next 6 months with confidence intervals","Create a scenario-based forecast: base/optimistic/pessimistic"],
+    mistakes:[],tips:[]
+  },
+  { num:30, name:"Advanced Conditional Formatting & Heatmaps", diff:"Easy", time:"2–3 hrs", order:30, priority:"",
+    concepts:["Custom formula rules: =AND(A2>target, A2<>\"\")","Row highlighting: =$C2=\"Overdue\"","Icon sets with custom thresholds","Color scale heatmap on a cross-tab matrix","Duplicate highlighting with COUNTIFS formula rule"],
+    formulas:[],
+    questions:[],
+    tasks:["Build a 12×12 month vs category heatmap using color scales","Highlight entire rows where date column is past due","Create a dynamic RAG flag with icon set on achievement %"],
+    mistakes:[],tips:[]
+  },
+  { num:31, name:"Form Controls & Interactive Elements (No VBA)", diff:"Medium", time:"3–4 hrs", order:31, priority:"",
+    concepts:["Dropdown List (Data Validation) linked to a cell","Scroll Bar: change a value by scrolling","Spin Button: increment/decrement a value","Check Box: toggle a Boolean flag in a cell","Option Buttons: select one of N choices"],
+    formulas:[],
+    questions:[],
+    tasks:["Build a scenario toggle: 3 option buttons → CHOOSE → update all KPIs","Create a scroll bar to control a \"Top N\" parameter for a ranking chart","Use checkboxes to show/hide chart series in a comparison dashboard"],
+    mistakes:[],tips:[]
+  },
+  { num:32, name:"Advanced Excel — LET, LAMBDA, BYROW, MAP & Custom Functions", diff:"Hard", time:"5–6 hrs", order:32, priority:"",
+    concepts:["LET: variable declarations in formula","LAMBDA: custom reusable function","BYROW/BYCOL: apply function to each row/column","MAP: transform each element","REDUCE, MAKEARRAY for advanced functional patterns"],
+    formulas:["=LET(x, value, y, value2, x*y)","=LAMBDA(x, y, x^2 + y^2)","=BYROW(array, LAMBDA(row, SUM(row)))","=MAP(array, LAMBDA(x, x*2))"],
+    questions:[],
+    tasks:["Use LET to write a readable multi-step formula","Create a LAMBDA function for calculating CAGR in Name Manager","Use BYROW to calculate a row-level custom metric across a table"],
+    mistakes:[],tips:[]
+  }
+];
+
+const dailyChecks = [
+  { title:"Create and format an Excel Table (Ctrl+T) with meaningful name", desc:"Tables auto-expand, use structured references, and integrate with PQ/PivotTables", diff:"Easy" },
+  { title:"Write XLOOKUP with not-found value handling", desc:"Modern replacement for VLOOKUP — must-know for any role", diff:"Medium" },
+  { title:"SUMIFS with 3+ criteria including date range", desc:">=\"\"&DATE(y,m,d) pattern — correct date criteria in SUMIFS", diff:"Medium" },
+  { title:"Build a PivotTable with grouping, calculated field, and slicer", desc:"The complete PivotTable workflow every analyst must know cold", diff:"Medium" },
+  { title:"Write a FILTER formula with AND and OR conditions", desc:"Dynamic arrays are the modern standard — FILTER replaces Advanced Filter", diff:"Medium" },
+  { title:"Build a dashboard with dropdown filter driving chart data", desc:"Data Validation + SUMIFS/FILTER + dynamic chart — no VBA needed", diff:"Hard" },
+  { title:"Use Power Query to combine 12 monthly CSV files", desc:"Folder connection + Append — eliminates copy-paste workflows forever", diff:"Hard" },
+  { title:"Use Conditional Formatting to highlight row-level thresholds", desc:"Custom formula: =$C2>$D2 to highlight entire row", diff:"Easy" },
+  { title:"Apply IFERROR to all VLOOKUP/XLOOKUP formulas", desc:"Never let #N/A errors appear in a report sent to stakeholders", diff:"Easy" },
+  { title:"Record a macro to automate repetitive formatting", desc:"Macro recorder → edit code → assign to button — save hours per month", diff:"Medium" },
+  { title:"Use DATEDIF to calculate employee tenure in years and months", desc:"HR report staple — DATEDIF not in autocomplete but still works", diff:"Easy" },
+  { title:"Trace Precedents and use Evaluate Formula to debug a wrong output", desc:"Essential debugging skill — faster than reading formulas", diff:"Easy" },
+];
+
+const interviewQs = [
+  ["Formulas & Functions","What is the difference between VLOOKUP and XLOOKUP?"],
+  ["Formulas & Functions","How do you do a two-criteria lookup? Demonstrate two methods."],
+  ["Formulas & Functions","What are the limitations of VLOOKUP that INDEX-MATCH solves?"],
+  ["Formulas & Functions","When does SUMIFS return 0 unexpectedly and how do you debug it?"],
+  ["Formulas & Functions","What is SUMPRODUCT and when would you use it over SUMIFS?"],
+  ["Formulas & Functions","Explain absolute vs relative vs mixed reference. Write an example of each."],
+  ["Formulas & Functions","What is the difference between IFERROR and IFNA?"],
+  ["Formulas & Functions","How do you calculate the number of business days between two dates?"],
+  ["Formulas & Functions","What is a dynamic array formula? What is a spill range?"],
+  ["Formulas & Functions","How does FILTER differ from Advanced Filter?"],
+  ["PivotTables","Live: Build a revenue by region and month PivotTable in 3 minutes."],
+  ["PivotTables","How do you add a calculated field to a PivotTable?"],
+  ["PivotTables","How do you connect multiple PivotTables to one slicer?"],
+  ["PivotTables","What is \"Show Values As → % of Parent Total\" and when do you use it?"],
+  ["PivotTables","PivotTable showing blank column header — why and how to fix?"],
+  ["Data Cleaning","How do you clean a dataset where some rows have duplicates across 3 columns?"],
+  ["Data Cleaning","How do you fill blank cells with the value from the cell above?"],
+  ["Data Cleaning","How do you use Flash Fill? What are its limitations?"],
+  ["Data Cleaning","How do you split a \"First Last\" column into two separate columns?"],
+  ["Data Cleaning","How do you highlight rows where a date column is past due?"],
+  ["Advanced","What is Power Query and how does it compare to VLOOKUP for merging?"],
+  ["Advanced","How do you combine 12 monthly CSV files automatically in Excel?"],
+  ["Advanced","What is the Excel Data Model and when would you use it?"],
+  ["Advanced","How do you make an interactive dashboard without using any VBA?"],
+  ["Advanced","How do you prevent users from editing formula cells in a shared workbook?"],
+  ["Performance","Your Excel file is 80MB and very slow. How do you diagnose and fix it?"],
+  ["Performance","What are volatile functions and why do they affect performance?"],
+  ["Performance","How do you automate a monthly report that takes 3 hours manually?"],
+  ["Performance","How would you reconcile data from two different systems in Excel?"],
+  ["Performance","When would you use Power BI or SQL instead of Excel for a task?"],
+];
+
+const planData = [
+  { phase:"Days 1–30", label:"Foundation & Core Skills", color:"var(--easy)", weeks:[
+    { title:"Week 1 · Days 1–5", focus:"Excel Fundamentals + Lookup Formulas", desc:"Cell refs, Tables, Named Ranges, XLOOKUP, INDEX-MATCH, VLOOKUP" },
+    { title:"Days 6–7 — Weekend Project", focus:"Product Pricing Lookup", desc:"Build XLOOKUP + INDEX-MATCH side by side; test edge cases" },
+    { title:"Week 2 · Days 8–12", focus:"Aggregation + Text + Date", desc:"SUMIFS, COUNTIFS, AVERAGEIFS, all text functions, DATEDIF, NETWORKDAYS" },
+    { title:"Days 13–14 — Project", focus:"Employee Report", desc:"Tenure, age band, salary analysis, department headcount using all formulas" },
+    { title:"Week 3 · Days 15–19", focus:"PivotTables + Charts", desc:"Build 10 PivotTables; calculated fields; slicers; combo charts; sparklines" },
+    { title:"Days 20–21 — Project", focus:"Sales PivotTable Suite", desc:"5 PivotTables from one dataset + 3 slicers + 3 charts connected" },
+    { title:"Week 4 · Days 22–26", focus:"Data Cleaning + Dynamic Arrays", desc:"TRIM/CLEAN, Flash Fill, Remove Dup, FILTER, SORT, UNIQUE, LET" },
+    { title:"Days 27–30 — Project", focus:"First Dashboard", desc:"1-page sales KPI dashboard: 6 KPIs, 3 charts, 1 dropdown, conditional formatting" },
+  ]},
+  { phase:"Days 31–60", label:"Intermediate — Power Query, VBA, Advanced Analysis", color:"var(--medium)", weeks:[
+    { title:"Days 31–36", focus:"Power Query Deep Dive", desc:"Connect 5 sources; append 12 files; merge tables; unpivot; group by; parameters" },
+    { title:"Days 37–38 — Project", focus:"Power Query Pipeline", desc:"Monthly CSV folder → combined → cleaned → loaded: full PQ pipeline" },
+    { title:"Days 39–43", focus:"What-If Analysis + Financial", desc:"Goal Seek, Data Tables, Scenario Manager, Solver, NPV, IRR, XIRR" },
+    { title:"Days 44–45 — Project", focus:"Financial Model", desc:"5-year P&L model with Base/Best/Worst scenarios + NPV/IRR output" },
+    { title:"Days 46–50", focus:"VBA & Macros Basics", desc:"Macro recorder; edit code; loops; If/Then; automate formatting + PDF export" },
+    { title:"Days 51–52 — Project", focus:"Automation", desc:"One-click monthly report: refresh PQ + format + export PDF + timestamp" },
+    { title:"Days 53–57", focus:"Advanced Dashboard Design", desc:"Form controls, dynamic charts, OFFSET-free dynamic ranges, bookmark navigation" },
+    { title:"Days 58–60 — Project", focus:"Portfolio Dashboard #2", desc:"HR analytics dashboard: headcount, attrition, tenure, department breakdown" },
+  ]},
+  { phase:"Days 61–90", label:"Advanced — Power Pivot, DAX, Business Analytics, SQL Integration", color:"var(--accent)", weeks:[
+    { title:"Days 61–66", focus:"Power Pivot + Data Model", desc:"Multi-table model, relationships, DAX measures, CALCULATE, time intelligence" },
+    { title:"Days 67–68 — Project", focus:"Power Pivot Star Schema", desc:"Fact + 3 dimension tables + 10 DAX measures" },
+    { title:"Days 69–73", focus:"Advanced DAX + LAMBDA/LET", desc:"CALCULATE, FILTER, RELATED, TOTALYTD, BYROW, MAP, LAMBDA functions" },
+    { title:"Days 74–75", focus:"SQL + Excel Integration", desc:"Connect PQ to SQL Server; native SQL query; parameterized queries" },
+    { title:"Days 76–80", focus:"Business Domain Dashboards", desc:"Finance P&L, Supply Chain, Customer Analytics, Forecasting dashboard" },
+    { title:"Days 81–83", focus:"Performance Optimization", desc:"Remove volatiles; reduce file size; calculation mode; formula audit" },
+    { title:"Days 84–87", focus:"Excel + Power BI Bridge", desc:"Analyze in Excel; build the same model in PBI; compare DAX transfer" },
+    { title:"Days 88–90 — Capstone", focus:"End-to-End Project", desc:"PQ pipeline → Power Pivot model → 30+ formulas → 3-page interactive dashboard → Macro automation" },
+  ]},
+];
+
+const projects = [
+  { name:"P1: Employee Directory & Tenure Analysis", desc:"DATEDIF for tenure, VLOOKUP for department, age bands using IFS, conditional formatting for long tenure.", level:"Beginner", time:"3–4hrs" },
+  { name:"P2: Sales Performance Tracker (Monthly)", desc:"12-month table using Tables; SUMIFS by region and product; conditional formatting RAG; sparklines per row.", level:"Beginner", time:"4–5hrs" },
+  { name:"P3: Invoice Aging Report", desc:"DATEDIF for days overdue, IFS for aging buckets (current/30/60/90+), SUMIFS by bucket, PivotTable by customer.", level:"Beginner", time:"3–4hrs" },
+  { name:"P4: Interactive Sales KPI Dashboard", desc:"1-page dashboard: revenue YTD, MTD, vs target KPI cards; trend chart; region breakdown; dropdown selector.", level:"Intermediate", time:"6–8hrs" },
+  { name:"P5: HR Analytics Dashboard", desc:"Headcount waterfall, attrition by department, tenure distribution histogram, gender/age breakdown.", level:"Intermediate", time:"5–7hrs" },
+  { name:"P6: Budget vs Actual Financial Report", desc:"Multi-sheet model: Assumptions → Calculations → Monthly P&L → Dashboard. Variance analysis with RAG status.", level:"Intermediate", time:"7–9hrs" },
+  { name:"P7: Power Query Multi-File Consolidation", desc:"12 monthly CSV files → Power Query append → clean → load → PivotTable dashboard. One-click refresh.", level:"Intermediate", time:"5–6hrs" },
+  { name:"P8: Customer RFM Segmentation Model", desc:"Transaction data → Power Query → DATEDIF recency, COUNTIFS frequency, SUMIFS monetary → PERCENTRANK scoring.", level:"Advanced", time:"8–10hrs" },
+  { name:"P9: Automated Monthly MIS Report", desc:"Power Query import → PivotTable refresh → VBA macro: format + add timestamp + export PDF. One-button monthly cycle.", level:"Advanced", time:"8–10hrs" },
+  { name:"P10: Power Pivot Multi-Table Analytics", desc:"Star schema in Data Model: fact (sales) + dim (customers, products, calendar). 15 DAX measures.", level:"Advanced", time:"10–12hrs" },
+  { name:"P11: 5-Year Financial Forecast Model", desc:"Inputs → Calculations → P&L/CF/Balance Sheet → Dashboard. Sensitivity analysis. NPV/IRR output.", level:"Advanced", time:"12–15hrs" },
+];
+
+const shortcuts = [
+  { group:"Navigation", items:[["Go to cell A1","Ctrl+Home"],["Last cell with data","Ctrl+End"],["Jump to edge of data","Ctrl+Arrow"],["Select to edge","Ctrl+Shift+Arrow"],["Select entire column","Ctrl+Space"],["Select entire row","Shift+Space"],["Select all","Ctrl+A"],["Move between sheets","Ctrl+PgUp/Dn"]] },
+  { group:"Editing", items:[["Toggle $ in reference","F4"],["Fill down","Ctrl+D"],["Fill right","Ctrl+R"],["Flash Fill","Ctrl+E"],["Find & Replace","Ctrl+H"],["Go To Special","F5"],["Paste values only","Ctrl+Alt+V→V"],["Insert row/column","Ctrl+Shift++"]] },
+  { group:"Formatting", items:[["Bold","Ctrl+B"],["Format cells dialog","Ctrl+1"],["Currency format","Ctrl+Shift+4"],["Percentage format","Ctrl+Shift+5"],["Autofit column width","Alt+H+O+I"],["Autofit row height","Alt+H+O+A"],["Merge & Center","Alt+H+M+C"],["Format Painter","Alt+H+F+P"]] },
+  { group:"Data & Analysis", items:[["Create Table","Ctrl+T"],["Insert PivotTable","Alt+N+V"],["Refresh PivotTable","Alt+F5"],["AutoFilter toggle","Ctrl+Shift+L"],["Remove Duplicates","Alt+A+M"],["Sort dialog","Alt+A+S+S"],["Name Manager","Ctrl+F3"],["Recalculate all","F9"]] },
+  { group:"Formulas & Auditing", items:[["Evaluate Formula","Alt+M+V"],["Trace Precedents","Alt+M+P"],["Trace Dependents","Alt+M+D"],["Show all formulas","Ctrl+`"],["Step into formula","F9 in formula bar"],["AutoSum","Alt+="],["Array formula (legacy)","Ctrl+Shift+Enter"],["Enter & move right","Tab"]] },
+  { group:"File & View", items:[["Save","Ctrl+S"],["Save As","F12"],["Print Preview","Ctrl+F2"],["Freeze panes","Alt+W+F+F"],["Open VBA editor","Alt+F11"],["Run macro","Alt+F8"],["Zoom to selection","Alt+W+G"],["New sheet","Shift+F11"]] },
+];
+
+const scenarios = [
+  { title:"📊 Scenario 1: Monthly Sales MIS Report — Due Every 1st of Month",
+    sections:[
+      { h:"Data Source", items:["12 regional managers submit Excel files","Need to combine into one master file","Previous month: copied manually (took 3 hours)","New approach: Power Query folder connector"] },
+      { h:"Solution Build", items:["PQ: connect to folder → append all files","PQ steps: filter current month, clean names","PivotTable: region × product × metric","SUMIFS cross-check totals vs source files","Conditional formatting: RAG vs target"] },
+      { h:"Automation", items:["VBA macro: refresh PQ → refresh PivotTables → format → save PDF → email","Result: 3-hour task → 5-minute refresh","Add \"Last Refreshed: \"&TEXT(NOW(),...)"] },
+    ]
+  },
+  { title:"🔍 Scenario 2: Data Reconciliation — Two Systems Don't Match",
+    sections:[
+      { h:"Problem", items:["CRM shows 1,250 orders; ERP shows 1,247","Total revenue also differs by ₹45,000","Need to find which records are different"] },
+      { h:"Excel Solution", items:["XLOOKUP to match order IDs across sheets","ISNA to flag records in one but not other","SUMIFS on matched records → identify amount diff","Conditional formatting to highlight mismatches"] },
+      { h:"Output", items:["Reconciliation summary: matched / unmatched counts","Difference flag column with variance amount","Filter to see only mismatches","Structured notes for finance team review"] },
+    ]
+  },
+  { title:"📈 Scenario 3: CFO Wants Revenue Target Analysis",
+    sections:[
+      { h:"Request", items:["Current profit margin is 12%","Want to hit ₹5 Cr EBITDA this year","Fixed costs known, variable cost % known","What revenue target is needed?"] },
+      { h:"Excel Solution", items:["Build a simple P&L model with inputs","Goal Seek: Set EBITDA = 5Cr by changing Revenue","OR: 2-way Data Table: Revenue × Margin rate → EBITDA","Scenario Manager: conservative/base/stretch"] },
+      { h:"Presentation", items:["Dashboard with interactive sensitivity table","Waterfall chart showing revenue → EBITDA bridge","Scenario summary using Scenario Manager report"] },
+    ]
+  },
+  { title:"👥 Scenario 4: HR Monthly Headcount Report by Department and Grade",
+    sections:[
+      { h:"Data Available", items:["Employee master: ID, name, dept, grade, join date, exit date","Monthly snapshots not available — need to derive","Movement data: hire date, exit date"] },
+      { h:"Solution", items:["Active employee flag: =IF(OR(exit blank, exit>month end),1,0)","COUNTIFS per dept, grade, month","Opening HC + Additions - Exits = Closing (SUMIFS each)","Attrition = Exits / ((Opening+Closing)/2)"] },
+      { h:"Dashboard", items:["Headcount waterfall chart (Opening/+/-/Closing)","Attrition trend line chart","Matrix: department × grade with color scale","Slicer for department view"] },
+    ]
+  },
+];
+
+const bestPractices = [
+  { title:"🏗 File Structure", items:["Separate sheets: Data, Calculations, Dashboard, Assumptions","Color-code sheet tabs: blue=data, green=output, yellow=input","Always use Tables (not ranges) for data","Never mix data, calculations, and output on one sheet","Keep all hardcoded inputs on one Assumptions sheet","Use a README sheet for documentation"] },
+  { title:"🔢 Formula Standards", items:["Color: blue = input, black = formula, green = external link","Always wrap lookups with IFERROR/IFNA","Avoid volatile functions in large models","Use Named Ranges for key assumptions","Add formula comments for complex logic","Never nest more than 2–3 functions deep without LET"] },
+  { title:"📊 Dashboard Standards", items:["One focused question per dashboard page","No more than 7 visuals on a single view","Consistent color palette (use company brand colors)","Remove gridlines from dashboard sheets","Every chart has a clear, business-focused title","Include \"As of [date]\" in every dashboard"] },
+  { title:"🔒 Data Integrity", items:["Lock formula cells; only unlock input cells","Use Data Validation on all manual input cells","Add row count checks at top of each data sheet","Use conditional formatting to flag data anomalies","Always verify: source total = calculated total","Never delete rows — hide or filter instead"] },
+  { title:"🚀 Performance", items:["Use Manual Calculation mode (F9) for heavy models","Replace volatile functions with Table-based alternatives","Use Power Query instead of in-sheet data storage","Delete unused named ranges, styles, and dead columns","Limit conditional formatting to specific ranges, not columns","Compress images before saving"] },
+  { title:"🤝 Sharing & Collaboration", items:["Save as .xlsx (not .xls) — compatible with all versions","Include file version and date in filename","Never use spaces in filenames for scripts","Protect sheets before sharing for editing","Use OneDrive/SharePoint for version control","Provide a \"How to Use\" guide for shared templates"] },
+];
+
+// ── RENDER ──────────────────────────────────────────────────────────
+const STORAGE_KEY = 'xl_checklist_v1';
+let state = {};
+try { state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch {}
+
+function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {} }
+
+function updateStats() {
+  const done = Object.values(state).filter(Boolean).length;
+  document.getElementById('doneCount').textContent = done;
+  const pct = Math.round((done / 32) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+}
+
+function renderTopics() {
+  const container = document.getElementById('topicList');
+  container.innerHTML = topics.map(t => {
+    const checked = state['t_' + t.num] ? 'checked' : '';
+    const diffClass = t.diff.toLowerCase().replace(' ','');
+    const priLabel = t.priority === 'Critical' ? `<span class="badge critical">${t.priority}</span>` :
+                     t.priority === 'High' ? `<span class="badge high">${t.priority}</span>` :
+                     t.priority === 'Medium' ? `<span class="badge" style="background:var(--accent)22;color:var(--accent);">${t.priority}</span>` : '';
+    return `<div class="topic-card ${checked}" id="tc_${t.num}">
+      <div class="topic-header" onclick="toggleTopic(${t.num})">
+        <div class="topic-cb" onclick="event.stopPropagation();checkTopic(${t.num})">
+          <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="topic-num">${t.num}.</span>
+        <span class="topic-name">${t.name}</span>
+        <div class="badges">
+          <span class="badge ${diffClass}">${t.diff}</span>
+          <span class="badge time">⏱ ${t.time}</span>
+          <span class="badge order">#${t.order}</span>
+          ${priLabel}
+        </div>
+        <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="topic-body">
+        ${t.why ? `<div style="background:var(--accent)11;border-left:3px solid var(--accent);padding:0.5rem 0.75rem;border-radius:0 6px 6px 0;margin-top:0.75rem;"><p style="font-size:0.8rem;color:var(--muted);">${t.why}</p></div>` : ''}
+        ${t.concepts?.length ? `<h4>Key Concepts</h4><ul>${t.concepts.map(c=>`<li>${c}</li>`).join('')}</ul>` : ''}
+        ${t.formulas?.length ? `<h4>Key Formulas / Features</h4><ul class="code-list">${t.formulas.map(f=>`<li>${f}</li>`).join('')}</ul>` : ''}
+        ${t.questions?.length ? `<h4>Interview Questions</h4><ul class="q-list">${t.questions.map(q=>`<li>${q}</li>`).join('')}</ul>` : ''}
+        ${t.tasks?.length ? `<h4>Practice Tasks</h4><ul class="practice-list">${t.tasks.map(tk=>`<li>${tk}</li>`).join('')}</ul>` : ''}
+        ${t.mistakes?.length ? `<div class="warn-box"><strong style="font-size:0.78rem;color:var(--red);">⚠ Common Mistakes</strong>${t.mistakes.map(m=>`<p>• ${m}</p>`).join('')}</div>` : ''}
+        ${t.tips?.length ? `<div class="tip-box"><strong style="font-size:0.78rem;color:var(--green);">💡 Tips</strong>${t.tips.map(tp=>`<p>• ${tp}</p>`).join('')}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleTopic(num) {
+  const card = document.getElementById('tc_' + num);
+  card.classList.toggle('open');
+}
+
+function checkTopic(num) {
+  const key = 't_' + num;
+  state[key] = !state[key];
+  save();
+  const card = document.getElementById('tc_' + num);
+  card.classList.toggle('checked', state[key]);
+  updateStats();
+}
+
+function renderDailyChecks() {
+  const container = document.getElementById('dailyList');
+  container.innerHTML = dailyChecks.map((item, i) => {
+    const checked = state['d_' + i] ? 'checked' : '';
+    const diffClass = item.diff.toLowerCase();
+    return `<div class="daily-item ${checked}" onclick="checkDaily(${i})" id="di_${i}">
+      <div class="cb">
+        <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <div class="title">${item.title} <span class="badge ${diffClass}" style="font-size:0.62rem;">${item.diff}</span></div>
+        <div class="desc">${item.desc}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function checkDaily(i) {
+  const key = 'd_' + i;
+  state[key] = !state[key];
+  save();
+  const el = document.getElementById('di_' + i);
+  el.classList.toggle('checked', state[key]);
+}
+
+function renderInterviewTable() {
+  const tbody = document.getElementById('interviewTable');
+  tbody.innerHTML = interviewQs.map((q, i) => `
+    <tr>
+      <td><span class="q-num">${i+1}</span></td>
+      <td>${q[1]}</td>
+      <td><span class="badge easy" style="font-size:0.68rem;">${q[0]}</span></td>
+    </tr>`).join('');
+}
+
+function renderPlan() {
+  const container = document.getElementById('planContent');
+  container.innerHTML = planData.map(phase => `
+    <div style="margin-bottom:2rem;">
+      <div style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:${phase.color};margin-bottom:0.75rem;font-weight:700;">${phase.phase} — ${phase.label}</div>
+      ${phase.weeks.map(w => `
+        <div class="week-block">
+          <h3>${w.title}</h3>
+          <div class="focus">${w.focus}</div>
+          <p>${w.desc}</p>
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+function renderProjects() {
+  const container = document.getElementById('projectGrid');
+  container.innerHTML = projects.map(p => {
+    const lvlColor = p.level === 'Beginner' ? 'var(--easy)' : p.level === 'Intermediate' ? 'var(--medium)' : 'var(--hard)';
+    return `<div class="project-card">
+      <h3>${p.name}</h3>
+      <p>${p.desc}</p>
+      <div class="project-meta">
+        <span class="badge" style="background:${lvlColor}22;color:${lvlColor};">${p.level}</span>
+        <span class="badge time">⏱ ${p.time}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderShortcuts() {
+  const container = document.getElementById('shortcutGrid');
+  container.innerHTML = shortcuts.map(g => `
+    <div class="shortcut-group">
+      <h3>${g.group}</h3>
+      ${g.items.map(([lbl, key]) => `
+        <div class="shortcut-row">
+          <span class="shortcut-lbl">${lbl}</span>
+          <span class="shortcut-key">${key}</span>
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+function renderScenarios() {
+  const container = document.getElementById('scenarioList');
+  container.innerHTML = scenarios.map(s => `
+    <div class="scenario-card">
+      <h3>${s.title}</h3>
+      <div class="scenario-inner">
+        ${s.sections.map(sec => `
+          <div class="scenario-col">
+            <h4>${sec.h}</h4>
+            <ul>${sec.items.map(i=>`<li>${i}</li>`).join('')}</ul>
+          </div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+function renderBestPractices() {
+  const container = document.getElementById('bpGrid');
+  container.innerHTML = bestPractices.map(bp => `
+    <div class="bp-card">
+      <h3>${bp.title}</h3>
+      <ul>${bp.items.map(i=>`<li>${i}</li>`).join('')}</ul>
+    </div>`).join('');
+}
+
+// ── TAB SWITCHING ──
+function switchTab(name, el) {
+  if (el) {
+    document.querySelectorAll('.sidebar nav a').forEach(a => a.classList.remove('active'));
+    el.classList.add('active');
+  }
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  return false;
+}
+
+// ── INIT ──
+renderTopics();
+renderDailyChecks();
+renderInterviewTable();
+renderPlan();
+renderProjects();
+renderShortcuts();
+renderScenarios();
+renderBestPractices();
+updateStats();
+</script>
+</body>
+</html>
