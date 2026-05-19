@@ -2,7 +2,7 @@
 
 An interactive roadmap and checklist platform designed to help students, aspiring analysts, and developers track their learning journey across multiple domains like Data Analytics, SQL, Python, AI/ML, Cloud, and more.
 
-🌐 **Live Site:** [Roadmap Checklist Website](https://simranasinha.github.io/Raodmap_Checklist/?utm_source=chatgpt.com)
+🌐 **Live Site:** [Roadmap Checklist Website](https://simranasinha.github.io/Roadmap_Checklist/)
 
 💻 **GitHub Repository:** [Raodmap_Checklist Repo](https://github.com/SimranaSinha/Raodmap_Checklist/tree/main?utm_source=chatgpt.com)
 
